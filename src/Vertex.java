@@ -1,21 +1,21 @@
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-
 public class Vertex {
-    private final Queue<Edge> adjList;
+    private final ArrayList<Edge> adjList;
     private final String name;
-    private boolean flag, start, finish, visited;
+    private boolean flag, start, finish;
+    private int shortestPath;
+    private boolean visited;
 
     public Vertex(String name) {
-        this.adjList = new PriorityQueue<>(new EdgeComparator());
+        this.adjList = new ArrayList<>();
         this.name = name;
+        this.shortestPath = Integer.MAX_VALUE;
     }
     public void adjAdd(Edge e){
         adjList.add(e);
     }
 
-    public Queue<Edge> getAdjList() {
+    public ArrayList<Edge> getAdjList() {
         return adjList;
     }
     public String getName() {
@@ -44,6 +44,14 @@ public class Vertex {
 
     public void setFinish(boolean finish) {
         this.finish = finish;
+    }
+
+    public int getShortestPath() {
+        return shortestPath;
+    }
+
+    public void setShortestPath(int shortestPath) {
+        this.shortestPath = shortestPath;
     }
 
     public boolean isVisited() {
