@@ -11,7 +11,7 @@ public class project4 {
         HashMap<String, Vertex> vertices = graph.getVertices();
         PriorityQueue<Vertex> queue = graph.getQueue();
         ArrayList<Vertex> flags = new ArrayList<>();//TODO: Make this hashset
-        File input = new File("smallCases/input/inp2.txt");
+        File input = new File("smallCases/input/myinp.txt");
         Scanner reader = new Scanner(input);
         int vertexCount = Integer.parseInt(reader.nextLine());
         int flagCount = Integer.parseInt(reader.nextLine());

@@ -20,22 +20,26 @@ public class RaceDaySimulation {
     }
     public int flag(PriorityQueue<Vertex> queue, ArrayList<Vertex> flags, int flagCount, HashMap<String, Vertex> vertices){
         int count = 0;
-        HashSet<Vertex> visitedFlags = new HashSet<>();
+        HashSet<String> visitedPaths = new HashSet<>();
         for (int i=0; i<flagCount; i++){
-            if (visitedFlags.contains(flags.get(i)))//TODO:Change order with above block
-                continue;
             for (Vertex v: vertices.values())
                 v.setShortestPath(Integer.MAX_VALUE);
-            queue.clear();
             flags.get(i).setShortestPath(0);
+            queue.clear();
             queue.add(flags.get(i));
-            visitedFlags.add(flags.get(i));
             HashSet<Vertex> visited = new HashSet<>();
             while (!queue.isEmpty()){
                 Vertex v1 = queue.peek();
-                if (v1.isFlag() && !visitedFlags.contains(v1)){
-                    count += v1.getShortestPath();
-//                    visitedFlags.add(v1);
+                if (v1.isFlag() && !v1.equals(flags.get(i))){
+                    String path;
+                    if (v1.getName().compareTo(flags.get(i).getName())<0)
+                        path = v1.getName() + "-" + flags.get(i).getName();
+                    else
+                        path = flags.get(i).getName() + "-" + v1.getName();
+                    if (!visitedPaths.contains(path)){
+                        visitedPaths.add(path);
+                        count += v1.getShortestPath();
+                    }
                     break;
                 }
                 visited.add(v1);
@@ -49,8 +53,8 @@ public class RaceDaySimulation {
                 }
                 queue.poll();
             }
-            if (visitedFlags.size() == flags.size())
-                break;
+//            if (visitedFlags.size() == flags.size())
+//                break;
         }
         return count;
     }
