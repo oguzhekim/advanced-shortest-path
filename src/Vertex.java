@@ -5,6 +5,7 @@ public class Vertex {
     private boolean flag, start, finish;
     private int shortestPath;
     private boolean visited;
+    private Vertex closestFlag;
 
     public Vertex(String name) {
         this.adjList = new ArrayList<>();
@@ -60,5 +61,13 @@ public class Vertex {
 
     public void setVisited(boolean visited) {
         this.visited = visited;
+    }
+
+    public Vertex getClosestFlag() {
+        return closestFlag;
+    }
+
+    public void setClosestFlag(Vertex closestFlag) {
+        this.closestFlag = closestFlag;
     }
 }

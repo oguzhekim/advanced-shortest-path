@@ -10,7 +10,8 @@ public class project4 {
         Graph graph = new Graph();
         HashMap<String, Vertex> vertices = graph.getVertices();
         PriorityQueue<Vertex> queue = graph.getQueue();
-        File input = new File("largeCases/input/stress2.txt");
+        ArrayList<Vertex> flags = new ArrayList<>();//TODO: Make this hashset
+        File input = new File("smallCases/input/inp2.txt");
         Scanner reader = new Scanner(input);
         int vertexCount = Integer.parseInt(reader.nextLine());
         int flagCount = Integer.parseInt(reader.nextLine());
@@ -29,12 +30,15 @@ public class project4 {
         for (String s : fourthLine) {
             if (startVertex.getName().equals(s)) {
                 startVertex.setFlag(true);
+                flags.add(startVertex);//
             } else if (finishVertex.getName().equals(s)) {
                 finishVertex.setFlag(true);
+                flags.add(finishVertex);//
             } else {
                 Vertex v = new Vertex(s);
                 v.setFlag(true);
                 vertices.put(s, v);
+                flags.add(v); //
 //                queue.add(v);
             }
         }
@@ -44,6 +48,7 @@ public class project4 {
             // If vertex not in vertexList.
             if (v1 == null){
                 v1 = new Vertex(line[0]);
+                vertices.put(line[0], v1);
             }
             for (int j=1; j<line.length; j+=2){
                 Vertex v2;
@@ -61,6 +66,15 @@ public class project4 {
         RaceDaySimulation s = new RaceDaySimulation();
         s.simulate(queue);
         int raceShortestPath = vertices.get(finishVertex.getName()).getShortestPath();
-        System.out.println(raceShortestPath);
+        if (raceShortestPath==Integer.MAX_VALUE)
+            System.out.println(-1);
+        else
+            System.out.println(raceShortestPath);
+
+        // TODO:Flags
+        // Reset vertices
+        System.out.println(s.flag(queue, flags, flagCount, vertices));
+
+
     }
 }
