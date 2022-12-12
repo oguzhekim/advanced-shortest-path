@@ -20,6 +20,8 @@ public class RaceDaySimulation {
     }
     public int flag(PriorityQueue<Vertex> queue, ArrayList<Vertex> flags, int flagCount, HashMap<String, Vertex> vertices){
         int[][] matrix = new int[flagCount][flagCount];
+        long start = System.currentTimeMillis();
+
         for (int i=0; i<flagCount; i++){
             for (Vertex v: vertices.values())
                 v.setShortestPath(Integer.MAX_VALUE);
@@ -44,6 +46,9 @@ public class RaceDaySimulation {
                 queue.poll();
             }
         }
+        long cp1 = System.currentTimeMillis();
+        System.out.println(cp1-start);
+
         HashSet<Integer> visitedColumns = new HashSet<>();
         HashSet<Integer> visitedRows = new HashSet<>();
         visitedRows.add(0);

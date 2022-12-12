@@ -4,6 +4,9 @@ import java.util.*;
 
 public class project4 {
     public static void main(String[] args) throws FileNotFoundException {
+        long start = System.currentTimeMillis();
+
+
         Graph graph = new Graph();
         HashMap<String, Vertex> vertices = graph.getVertices();
         PriorityQueue<Vertex> queue = graph.getQueue();
@@ -60,8 +63,13 @@ public class project4 {
                 v2.adjAdd(new Edge(v1, Integer.parseInt(line[j+1])));
             }
         }
+        long cp1 = System.currentTimeMillis();
+        System.out.println("reading:" + Long.toString(cp1-start));
         RaceDaySimulation s = new RaceDaySimulation();
         s.simulate(queue);
+        long cp2 = System.currentTimeMillis();
+        System.out.println("race:" + Long.toString(cp2-cp1));
+
         int raceShortestPath = vertices.get(finishVertex.getName()).getShortestPath();
         if (raceShortestPath==Integer.MAX_VALUE)
             System.out.println(-1);
@@ -71,7 +79,7 @@ public class project4 {
         // TODO:Flags
         // Reset vertices
         System.out.println(s.flag(queue, flags, flagCount, vertices));
-
-
+        long finish = System.currentTimeMillis();
+        System.out.println("total:" + Long.toString(finish-start));
     }
 }
