@@ -4,13 +4,14 @@ public class Vertex {
     private final String name;
     private boolean flag, start, finish;
     private int shortestPath;
-    private boolean visited;
-    private Vertex closestFlag;
+    public int index;
+    public int minVal;
 
-    public Vertex(String name) {
+    public Vertex(String name, int index) {
         this.adjList = new ArrayList<>();
         this.name = name;
         this.shortestPath = Integer.MAX_VALUE;
+        this.index =index;
     }
     public void adjAdd(Edge e){
         adjList.add(e);
@@ -55,19 +56,7 @@ public class Vertex {
         this.shortestPath = shortestPath;
     }
 
-    public boolean isVisited() {
-        return visited;
-    }
-
-    public void setVisited(boolean visited) {
-        this.visited = visited;
-    }
-
-    public Vertex getClosestFlag() {
-        return closestFlag;
-    }
-
-    public void setClosestFlag(Vertex closestFlag) {
-        this.closestFlag = closestFlag;
+    public int getMinVal() {
+        return minVal;
     }
 }

@@ -6,7 +6,7 @@ public class Graph {
     private final PriorityQueue<Vertex> queue;
     private final HashMap<String, Vertex> vertices;
     public Graph() {
-        this.queue = new PriorityQueue<>(Comparator.comparingInt(Vertex::getShortestPath));
+        this.queue = new PriorityQueue<>(Comparator.comparingInt(Vertex::getMinVal));
         this.vertices = new HashMap<>();
     }
     public PriorityQueue<Vertex> getQueue() {
