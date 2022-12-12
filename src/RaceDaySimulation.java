@@ -19,8 +19,7 @@ public class RaceDaySimulation {
         }
     }
     public int flag(PriorityQueue<Vertex> queue, ArrayList<Vertex> flags, int flagCount, HashMap<String, Vertex> vertices){
-        int count = 0;
-        HashSet<String> visitedPaths = new HashSet<>();
+        int[][] matrix = new int[flagCount][flagCount];
         for (int i=0; i<flagCount; i++){
             for (Vertex v: vertices.values())
                 v.setShortestPath(Integer.MAX_VALUE);
@@ -31,16 +30,7 @@ public class RaceDaySimulation {
             while (!queue.isEmpty()){
                 Vertex v1 = queue.peek();
                 if (v1.isFlag() && !v1.equals(flags.get(i))){
-                    String path;
-                    if (v1.getName().compareTo(flags.get(i).getName())<0)
-                        path = v1.getName() + "-" + flags.get(i).getName();
-                    else
-                        path = flags.get(i).getName() + "-" + v1.getName();
-                    if (!visitedPaths.contains(path)){
-                        visitedPaths.add(path);
-                        count += v1.getShortestPath();
-                    }
-                    break;
+                    matrix[i][flags.indexOf(v1)] = v1.getShortestPath();
                 }
                 visited.add(v1);
                 for (Edge e: v1.getAdjList()){
@@ -53,9 +43,35 @@ public class RaceDaySimulation {
                 }
                 queue.poll();
             }
-//            if (visitedFlags.size() == flags.size())
-//                break;
+        }
+        HashSet<Integer> visitedColumns = new HashSet<>();
+        HashSet<Integer> visitedRows = new HashSet<>();
+        visitedRows.add(0);
+        visitedColumns.add(0);
+        int count = 0;
+        while (visitedColumns.size()!=flagCount){
+            int min = Integer.MAX_VALUE;
+            int rowToAdd = 0;
+            int colToAdd = 0;
+            for (int row: visitedRows){
+                for (int col=0; col<flagCount; col++){
+                    if (!visitedColumns.contains(col)){
+                        // get min of that row
+                        if (min>matrix[row][col]){
+                            min = matrix[row][col];
+                            rowToAdd = col;
+                            colToAdd = col;
+                        }
+                    }
+                }
+            }
+            visitedRows.add(rowToAdd);
+            visitedColumns.add(colToAdd);
+            count+=min;
         }
         return count;
+    }
+    private void deleteColumn(int[][] matrix, int col){
+
     }
 }

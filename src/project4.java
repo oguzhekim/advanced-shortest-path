@@ -1,9 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class project4 {
     public static void main(String[] args) throws FileNotFoundException {
@@ -11,7 +8,7 @@ public class project4 {
         HashMap<String, Vertex> vertices = graph.getVertices();
         PriorityQueue<Vertex> queue = graph.getQueue();
         ArrayList<Vertex> flags = new ArrayList<>();//TODO: Make this hashset
-        File input = new File("smallCases/input/myinp.txt");
+        File input = new File("largeCases/input/stress1.txt");
         Scanner reader = new Scanner(input);
         int vertexCount = Integer.parseInt(reader.nextLine());
         int flagCount = Integer.parseInt(reader.nextLine());
