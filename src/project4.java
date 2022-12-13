@@ -5,22 +5,17 @@ import java.util.*;
 public class project4 {
     public static void main(String[] args) throws FileNotFoundException {
         long start = System.currentTimeMillis();
-
         int index = 0;
-        Graph graph = new Graph();
+        Graph graph = new Graph(); //TODO: Get rid of vertices map and remove graph class
         HashMap<String, Vertex> vertices = graph.getVertices();
-        PriorityQueue<Vertex> queue = graph.getQueue();
         ArrayList<Vertex> flags = new ArrayList<>();//TODO: Make this hashset
-        File input = new File("smallCases/input/inp13.txt");
+        File input = new File("largeCases/input/stressPart1-2.txt");
         Scanner reader = new Scanner(input);
         int vertexCount = Integer.parseInt(reader.nextLine());
         int flagCount = Integer.parseInt(reader.nextLine());
         String[] thirdLine = reader.nextLine().split(" ");
         Vertex startVertex = new Vertex(thirdLine[0], index++);
         Vertex finishVertex = new Vertex(thirdLine[1], index++);
-        startVertex.setStart(true);
-        startVertex.setShortestPath(0);
-        finishVertex.setFinish(true);
         vertices.put(thirdLine[0], startVertex);
         vertices.put(thirdLine[1], finishVertex);
         String[] fourthLine = reader.nextLine().split(" ");
@@ -36,8 +31,7 @@ public class project4 {
                 Vertex v = new Vertex(s, index++);
                 v.setFlag(true);
                 vertices.put(s, v);
-                flags.add(v); //
-//                queue.add(v);
+                flags.add(v);
             }
         }
         for (int i=0; i<vertexCount; i++){
@@ -53,7 +47,6 @@ public class project4 {
                 if (!vertices.containsKey(line[j])){
                     v2 = new Vertex(line[j], index++);
                     vertices.put(line[j], v2);
-//                    queue.add(v2);
                 }
                 else
                     v2 = vertices.get(line[j]);
@@ -63,7 +56,7 @@ public class project4 {
         }
         long cp1 = System.currentTimeMillis();
         System.out.println("reading:" + (cp1 - start));
-        RaceDaySimulation s = new RaceDaySimulation();
+        Simulator s = new Simulator();
         System.out.println(s.dijkstra(startVertex,finishVertex, vertexCount));
         System.out.println(s.flag(flags, flagCount, vertexCount));
         long finish = System.currentTimeMillis();
