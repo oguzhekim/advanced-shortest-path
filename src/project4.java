@@ -11,7 +11,7 @@ public class project4 {
         HashMap<String, Vertex> vertices = graph.getVertices();
         PriorityQueue<Vertex> queue = graph.getQueue();
         ArrayList<Vertex> flags = new ArrayList<>();//TODO: Make this hashset
-        File input = new File("largeCases/input/stress3.txt");
+        File input = new File("smallCases/input/inp13.txt");
         Scanner reader = new Scanner(input);
         int vertexCount = Integer.parseInt(reader.nextLine());
         int flagCount = Integer.parseInt(reader.nextLine());
@@ -62,22 +62,11 @@ public class project4 {
             }
         }
         long cp1 = System.currentTimeMillis();
-        System.out.println("reading:" + Long.toString(cp1-start));
+        System.out.println("reading:" + (cp1 - start));
         RaceDaySimulation s = new RaceDaySimulation();
         System.out.println(s.dijkstra(startVertex,finishVertex, vertexCount));
-        long cp2 = System.currentTimeMillis();
-        System.out.println("race:" + Long.toString(cp2-cp1));
-
-//        int raceShortestPath = vertices.get(finishVertex.getName()).getShortestPath();
-//        if (raceShortestPath==Integer.MAX_VALUE)
-//            System.out.println(-1);
-//        else
-//            System.out.println(raceShortestPath);
-
-        // TODO:Flags
-        // Reset vertices
-        System.out.println("result: " + s.flag(flags, flagCount, vertexCount));
+        System.out.println(s.flag(flags, flagCount, vertexCount));
         long finish = System.currentTimeMillis();
-        System.out.println("total:" + Long.toString(finish-start));
+        System.out.println("total:" + (finish - start));
     }
 }

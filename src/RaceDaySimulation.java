@@ -11,32 +11,28 @@ public class RaceDaySimulation {
         queue.add(start);
         while (!queue.isEmpty()){
             Vertex v1 = queue.poll();
-            if (visited[v1.index]) continue;
             visited[v1.index] = true;
-            if (distance[v1.index]<v1.minVal){
-                //TODO: IDK What is this
-                System.out.println("used");
-                continue;
-            }
-
+//            if (visited[v1.index])
+//                continue;
+            if (distance[v1.index] < v1.getMinVal()) continue; //
             for (Edge e: v1.getAdjList()){
                 Vertex v2 = e.destination();
                 if (visited[v2.index])
                     continue;
-                if (distance[v2.index] > distance[v1.index]+e.weight()){
-                    distance[v2.index] = distance[v1.index]+e.weight();
-                    v2.minVal = distance[v1.index]+e.weight();
+                int val = distance[v1.index]+e.weight();
+                if (distance[v2.index] > val){
+                    distance[v2.index] = val;
+                    v2.minVal = val;
                     queue.add(v2);
                 }
             }
-            if (v1.index == end.index)
+            if (v1.equals(end))
                 return distance[v1.index];
         }
         return -1;
     }
     public int flag(ArrayList<Vertex> flags, int flagCount, int v){
         int[][] matrix = new int[flagCount][flagCount];
-        long startTime = System.currentTimeMillis();
 
         for (int i=0; i<flagCount; i++) {
             int visitedFlags = 0; //TODO: Added performancewise but didn't change much
@@ -58,11 +54,6 @@ public class RaceDaySimulation {
                     visitedFlags++;
                     matrix[i][flags.indexOf(v1)] = distance[v1.index];
                 }
-                if (distance[v1.index] < v1.minVal) {
-                    //TODO: IDK What is this
-                    System.out.println("used");
-                    continue;
-                }
                 for (Edge e : v1.getAdjList()) {
                     Vertex v2 = e.destination();
                     if (visited[v2.index])
@@ -75,39 +66,6 @@ public class RaceDaySimulation {
                 }
             }
         }
-
-//        for (int i=0; i<flagCount; i++){
-//            HashSet<Vertex> visitedFlags = new HashSet<>(); //TODO: Added performancewise but didn't change much
-//            visitedFlags.add(flags.get(0));
-//            for (Vertex v: vertices.values()) { //Doesn't take long
-//                v.setShortestPath(Integer.MAX_VALUE);
-//            }
-//            flags.get(i).setShortestPath(0);
-//            queue.clear();
-//            queue.add(flags.get(i));
-//            HashSet<Vertex> visited = new HashSet<>();
-//            while (!queue.isEmpty()){
-//                Vertex v1 = queue.peek();
-//                if (v1.isFlag() && !v1.equals(flags.get(i))){
-//                    matrix[i][flags.indexOf(v1)] = v1.getShortestPath();
-//                    visitedFlags.add(v1);
-//                }
-//                visited.add(v1);
-//                for (Edge e: v1.getAdjList()){
-//                    Vertex v2 = e.destination();
-//                    if (!visited.contains(v2) && v2.getShortestPath() > v1.getShortestPath()+e.weight()){
-//                        queue.remove(v2);
-//                        v2.setShortestPath(v1.getShortestPath()+e.weight());
-//                        queue.add(v2);
-//                    }
-//                }
-//                if (visitedFlags.size()==flagCount)
-//                    break;
-//                queue.poll();
-//            }
-//        }
-        long cp1 = System.currentTimeMillis();
-        System.out.println(cp1-startTime);
 
         HashSet<Integer> visitedColumns = new HashSet<>();
         HashSet<Integer> visitedRows = new HashSet<>();
