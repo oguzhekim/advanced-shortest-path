@@ -1,21 +1,19 @@
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-
 public class Vertex {
-    private final Queue<Edge> adjList;
+    private final ArrayList<Edge> adjList;
     private final String name;
-    private boolean flag, start, finish, visited;
+    private boolean flag;
+    public int index;
 
-    public Vertex(String name) {
-        this.adjList = new PriorityQueue<>(new EdgeComparator());
+    public Vertex(String name, int index) {
+        this.adjList = new ArrayList<>();
         this.name = name;
+        this.index =index;
     }
     public void adjAdd(Edge e){
         adjList.add(e);
     }
-
-    public Queue<Edge> getAdjList() {
+    public ArrayList<Edge> getAdjList() {
         return adjList;
     }
     public String getName() {
@@ -30,27 +28,4 @@ public class Vertex {
         this.flag = flag;
     }
 
-    public boolean isStart() {
-        return start;
-    }
-
-    public void setStart(boolean start) {
-        this.start = start;
-    }
-
-    public boolean isFinish() {
-        return finish;
-    }
-
-    public void setFinish(boolean finish) {
-        this.finish = finish;
-    }
-
-    public boolean isVisited() {
-        return visited;
-    }
-
-    public void setVisited(boolean visited) {
-        this.visited = visited;
-    }
 }
