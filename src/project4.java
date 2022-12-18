@@ -3,28 +3,25 @@ import java.util.*;
 
 public class project4 {
     public static void main(String[] args) throws IOException {
-        long start = System.currentTimeMillis();
-        FileReader fr = new FileReader("smallCases/input/inp13.txt");
+        FileReader fr = new FileReader(args[0]);
         BufferedReader br = new BufferedReader(fr);
-        Graph graph = new Graph(); //TODO: Get rid of vertices map and remove graph class
+        Graph graph = new Graph();
         HashMap<String, Vertex> vertices = graph.getVertices();
-        ArrayList<Vertex> flags = new ArrayList<>();//TODO: Make this hashset
+        ArrayList<Vertex> flags = new ArrayList<>();
         int index = 0;
         int vertexCount = Integer.parseInt(br.readLine()); // First line
         int flagCount = Integer.parseInt(br.readLine()); // Second line
-        String thirdLine = br.readLine();
-        StringTokenizer tk = new StringTokenizer(thirdLine);
-        Vertex startVertex = new Vertex(tk.nextToken(), index++);
-        vertices.put(startVertex.getName(), startVertex);
-        Vertex end = new Vertex(tk.nextToken(), index++);
-        vertices.put(end.getName(), end);
+        String[] thirdLine = br.readLine().split(" ");
+        Vertex start = new Vertex(thirdLine[0], index++);
+        vertices.put(thirdLine[0], start);
+        Vertex end = new Vertex(thirdLine[1], index++);
+        vertices.put(thirdLine[1], end);
         // FLAGS
-        tk = new StringTokenizer(br.readLine());
-        String s = tk.nextToken(); // First flag
-        while (s!=null){
-            if (startVertex.getName().equals(s)) {
-                startVertex.setFlag(true);
-                flags.add(startVertex);
+        String[] fourthLine = br.readLine().split(" ");
+        for (String s: fourthLine){
+            if (start.getName().equals(s)) {
+                start.setFlag(true);
+                flags.add(start);
             } else if (end.getName().equals(s)) {
                 end.setFlag(true);
                 flags.add(end);
@@ -34,45 +31,39 @@ public class project4 {
                 vertices.put(s, v);
                 flags.add(v);
             }
-            try{
-                s = tk.nextToken();
-            } catch (NoSuchElementException e){
-                s = null;
-            }
         }
         // EDGES
-        String currentLine =br.readLine();
+        Vertex v1;
+        Vertex v2;
+        String currentLine = br.readLine();
         while (currentLine != null) {
-            tk = new StringTokenizer(currentLine);
-            s = tk.nextToken();
-            Vertex v1 = vertices.get(s);
+            String[] arr = currentLine.split(" ");
+            v1 = vertices.get(arr[0]);
             if (v1 == null){
-                v1 = new Vertex(s, index++);
-                vertices.put(s, v1);
+                v1 = new Vertex(arr[0], index++);
+                vertices.put(arr[0], v1);
             }
-            while (s!=null){
-                try{
-                    s = tk.nextToken();
-                    Vertex v2 = vertices.get(s);
-                    if (v2 == null){
-                        v2 = new Vertex(s, index++);
-                        vertices.put(s, v2);
-                    }
-                    s = tk.nextToken();
-                    v1.adjAdd(new Edge(v2, Integer.parseInt(s)));
-                    v2.adjAdd(new Edge(v1, Integer.parseInt(s)));
-                } catch (NoSuchElementException e){
-                    s = null;
+            for (int i=1; i<arr.length; i+=2){
+                String s = arr[i];
+                int weight = Integer.parseInt(arr[i+1]);
+                v2 = vertices.get(s);
+                if (v2 == null){
+                    v2 = new Vertex(s, index++);
+                    vertices.put(s, v2);
                 }
+                v1.adjAdd(new Edge(v2, weight));
+                v2.adjAdd(new Edge(v1, weight));
             }
             currentLine = br.readLine();
         }
-        long cp1 = System.currentTimeMillis();
-        System.out.println("reading:" + (cp1 - start));
+        br.close();
+        fr.close();
+        PrintStream ps = new PrintStream(args[1]);
+        PrintStream console = System.out;
+        System.setOut(ps);
         Simulator sim = new Simulator();
-        System.out.println(sim.dijkstra(startVertex,end, vertexCount));
+        System.out.println(sim.dijkstra(start, end, vertexCount));
         System.out.println(sim.flag(flags, flagCount, vertexCount));
-        long finish = System.currentTimeMillis();
-        System.out.println("total:" + (finish - start));
+        System.setOut(console);
     }
 }
